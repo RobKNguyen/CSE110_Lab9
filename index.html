@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 9</title>
+
+  <style>
+    button {
+      margin: 3px;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+
+    #first-num,
+    #second-num {
+      width: 60px;
+    }
+
+    output {
+      border: 1px solid gray;
+      display: block;
+      height: 18px;
+      margin-top: 5px;
+      padding: 5px;
+      width: 240px;
+    }
+
+    main {
+      width: 800px;
+    }
+
+    #error-btns {
+      column-gap: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      row-gap: 5px;
+    }
+
+    #error-btns>* {
+      padding: 8px 2px;
+      width: 122px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <form>
+      <fieldset>
+        <legend>Error Calculator</legend>
+        <input name="first-num" id="first-num" />
+        <select name="operator" id="operator">
+          <option>+</option>
+          <option>-</option>
+          <option>*</option>
+          <option>/</option>
+        </select>
+        <input name="second-num" id="second-num" />
+        <button id="calculate">Calculate</button>
+        <br />
+        <output></output>
+      </fieldset>
+    </form>
+
+    <section id="error-btns">
+      <button>Console Log</button>
+      <button>Console Error</button>
+      <button>Console Count</button>
+      <button>Console Warn</button>
+      <button>Console Assert</button>
+      <button>Console Clear</button>
+      <button>Console Dir</button>
+      <button>Console dirxml</button>
+      <button>Console Group Start</button>
+      <button>Console Group End</button>
+      <button>Console Table</button>
+      <button>Start Timer</button>
+      <button>End Timer</button>
+      <button>Console Trace</button>
+      <button>Trigger a Global Error</button>
+    </section>
+  </main>
+
+  <script>
+    let form = document.querySelector('form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let output = document.querySelector('output');
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+    });
+
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+
+    // Start your code here
+    // You may move this JS to another file if you wish
+
+    errorBtns[0].addEventListener('click', function() {
+      console.log("C-Log");
+    });
+
+    errorBtns[1].addEventListener('click', function() {
+      console.error("C-Error");
+    });
+
+    errorBtns[2].addEventListener('click', function() {
+      console.count("C-Dem");
+    });
+
+    errorBtns[3].addEventListener('click', function() {
+      console.warn("C-Warn");
+    });
+
+    errorBtns[4].addEventListener('click', function() {
+      let number = 69;
+      const errorMsg = 'The number is not equal to 10';
+      console.assert(number === 10, { number: number, errorMsg: errorMsg });
+    });
+
+    errorBtns[5].addEventListener('click', function() {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', function() {
+      console.dir(errorBtns[6]);
+    });
+
+    errorBtns[7].addEventListener('click', function() {
+      console.dirxml(errorBtns[7]);
+    });
+
+    errorBtns[8].addEventListener('click', function() {
+      console.group();
+    });
+
+    errorBtns[9].addEventListener('click', function() {
+      console.groupEnd();
+    });
+
+    errorBtns[10].addEventListener('click', function() {
+      function course(title, section) {
+        this.title = title;
+        this.section = section;
+      }
+      let MATH2A = new course("Calc 1", 1);
+      let MATH2B = new course("Calc 2", 2);
+      let MATH2C = new course("Calc 3", 3);
+
+      console.table([MATH2A, MATH2B, MATH2C]);
+    });
+
+    errorBtns[11].addEventListener('click', function() {
+      console.time();
+    });
+
+    errorBtns[12].addEventListener('click', function() {
+      console.timeEnd();
+    });
+
+    errorBtns[13].addEventListener('click', function() {
+      function firstLevel() {
+        function secondLevel() {
+          function thirdLevel() {
+            console.trace();
+          }
+          thirdLevel();
+        }
+        secondLevel();
+      }
+      firstLevel();
+    });
+
+    class CustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CustomError";
+      }
+    }
+
+    let calculate = document.getElementById("calculate");
+    calculate.addEventListener("click", function() {
+      try {
+        let num1 = document.querySelector("#first-num").value;
+        let num2 = document.querySelector("#second-num").value;
+        if (!(!(isNaN(num1)) && (!(isNaN(num2))))) {
+          console.log("Sadly an Error has happened my friend.");
+          throw new CustomError("Sadly an Error happened my friend.");
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        console.log("Fin");
+      }
+    });
+
+    window.onerror = function (message, source, lineno, colno, error) {
+      console.log(message);
+    }
+
+
+
+  </script>
+</body>
+
+</html>
